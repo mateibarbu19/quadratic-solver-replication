@@ -1,0 +1,17 @@
+---
+documentclass: utils/IEEEtran
+lang: en
+author:
+- Matei Barbu (341C2)
+- Andrei Petruț Stîngescu (342C2)
+date:
+geometry: margin=2cm
+classoption: twocolumn
+title: "Write-up: Reproduce ProxQP"
+indent: true
+papersize: a4
+numbersections: true
+bibliography: bibliography.bib
+link-citations: true
+abstract:  Ipsa ipsa qui eos neque quam. Aut maiores sint minus. Excepturi cumque similique impedit nemo nostrum nam voluptatibus. At ipsum sunt at asperiores et.
+---

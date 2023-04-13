@@ -11,6 +11,10 @@ title: "Write-up: Understanding Quadratic programming"
 indent: true
 papersize: a4
 numbersections: true
+color-links: true
+urlcolor: blue
 bibliography: bibliography.bib
 link-citations: true
+hyperrefoptions:
+  - linktoc=all
 ---

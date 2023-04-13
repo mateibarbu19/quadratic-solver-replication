@@ -1,6 +1,7 @@
 from: markdown+raw_attribute+markdown_in_html_blocks
 html-math-method:
   method: katex
+toc: true
 highlight-style: tango
 filters:
   - pandoc-crossref

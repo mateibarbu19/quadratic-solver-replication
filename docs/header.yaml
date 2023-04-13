@@ -7,11 +7,10 @@ author:
 date:
 geometry: margin=2cm
 classoption: twocolumn
-title: "Write-up: Reproduce ProxQP"
+title: "Write-up: Understanding Quadratic programming"
 indent: true
 papersize: a4
 numbersections: true
 bibliography: bibliography.bib
 link-citations: true
-abstract:  Ipsa ipsa qui eos neque quam. Aut maiores sint minus. Excepturi cumque similique impedit nemo nostrum nam voluptatibus. At ipsum sunt at asperiores et.
 ---

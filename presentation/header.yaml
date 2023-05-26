@@ -1,0 +1,19 @@
+---
+theme: Boadilla
+lang: en
+author:
+- Matei Barbu (341C2)
+- Andrei Petruț Stîngescu (342C2)
+title: Understanding Quadratic programming
+subtitle: QuadPRrog
+indent: true
+numbersections: true
+color-links: true
+urlcolor: blue
+bibliography: bibliography.bib
+link-citations: true
+hyperrefoptions:
+  - linktoc=all
+nocite: |
+  @*
+---

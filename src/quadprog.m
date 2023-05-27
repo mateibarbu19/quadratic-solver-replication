@@ -1,10 +1,10 @@
 function x = quadprog(x0, G, c, A_eq, b_eq, A_in, b_in)
     display("========================= START =========================\n");
-    % TODO check linear independecy
     % TODO verify all dimensions
-    % TODO choose x0 which satisfies a condition
-    % assert A is not full rank row
-    % assert no constrains
+    % TODO choose x0 which satisfies some constraints
+    % TODO A has linieraly dependent rows
+    % TODO no constrains
+    % TODO aproximate 0, aproximate 1?
     L = rows(G);
 
     if (isempty(x0))
@@ -42,12 +42,9 @@ function x = quadprog(x0, G, c, A_eq, b_eq, A_in, b_in)
 
         A = A(K, :)
         b = b(K, :)
-        % m = rows(idx_in)
-        % idx_in = idx_in(K <= m)
-        % idx_eq = idx_eq(K - m > 0)
-
-        idx_in = find_row_indexes(A, A_in)
-        idx_eq = find_row_indexes(A, A_eq)
+        m = rows(idx_in);
+        idx_in = idx_in(K <= m);
+        idx_eq = idx_eq(K(K > m) - m);
 
         g = G * x + c;
         h = A * x - b;
@@ -58,7 +55,7 @@ function x = quadprog(x0, G, c, A_eq, b_eq, A_in, b_in)
         p = -s(1:L)
         lambdas = s(L + 1:end)
 
-        if (p == 0)
+        if (abs(p) < 1e-12)
             display("\n========= p == 0 =========\n");
 
             ls_in = lambdas(1:rows(idx_in), :);

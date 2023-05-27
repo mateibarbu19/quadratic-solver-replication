@@ -1,39 +1,47 @@
-function x = quadprog(x0, H, q, A_eq, b, A_in, lb)
+function x = quadprog(x0, G, c, A_eq, b_eq, A_in, b_in)
+    display("========================= START =========================\n");
     % TODO check linear independecy
     % TODO verify all dimensions
+    % TODO choose x0 which satisfies a condition
     % assert A is not full rank row
-    L = rows(H);
+    % assert no constrains
+    L = rows(G);
 
     if (isempty(x0))
-        x0 = zeros (L, 1)
+        x0 = zeros (L, 1);
     endif
-    if (isempty(A_eq) || isempty(b))
+
+    if (isempty(A_eq) || isempty(b_eq))
         A_eq = zeros(1, L);
-        b = zeros(1);
+        b_eq = zeros(1);
     endif
-    if (isempty(A_in) || isempty(lb))
+
+    if (isempty(A_in) || isempty(b_in))
         A_in = zeros(1, L);
-        lb = zeros(1);
+        b_in = zeros(1);
     endif
-    if (isempty(q))
-        q = zeros(L, 1);
+
+    if (isempty(c))
+        c = zeros(L, 1);
     endif
 
     M = rows(A_in);
     N = rows(A_eq);
 
     % the SUBset of the active constraints at x0
-    idx_in = find(A_in * x0 >= lb)
-    idx_eq = find(A_eq * x0 == b)
+    idx_in = find(A_in * x0 >= b_in);
+    idx_eq = find(A_eq * x0 == b_eq);
     x = x0;
 
     while 1
         display("\n============ loop ============\n");
 
         A = [A_in(idx_in, :); A_eq(idx_eq, :)];
+        b = [b_in(idx_in, :); b_eq(idx_eq, :)];
         [~, K] = rref(A');
 
         A = A(K, :)
+        b = b(K, :)
         % m = rows(idx_in)
         % idx_in = idx_in(K <= m)
         % idx_eq = idx_eq(K - m > 0)
@@ -41,15 +49,17 @@ function x = quadprog(x0, H, q, A_eq, b, A_in, lb)
         idx_in = find_row_indexes(A, A_in)
         idx_eq = find_row_indexes(A, A_eq)
 
-        qk = H * x + q;
-        z = zeros(rows(A), 1);
+        g = G * x + c;
+        h = A * x - b;
+        F = [G A'; A zeros(rows(A))];
 
-        p = qp([], H, qk, A, z)
+        s = linsolve(F, [g; h]); % KKT
+
+        p = -s(1:L)
+        lambdas = s(L + 1:end)
 
         if (p == 0)
             display("\n========= p == 0 =========\n");
-
-            lambdas = linsolve(A, H * x + q); % KKT
 
             ls_in = lambdas(1:rows(idx_in), :);
 
@@ -63,8 +73,8 @@ function x = quadprog(x0, H, q, A_eq, b, A_in, lb)
         else
             display("\n========= p != 0 =========\n");
 
-            as_in = alphas(M, A_in, lb, x, p, idx_in)
-            as_eq = alphas(N, A_eq, b, x, p, idx_eq)
+            as_in = alphas(M, A_in, b_in, x, p, idx_in)
+            as_eq = alphas(N, A_eq, b_eq, x, p, idx_eq)
 
             [a, j] = min([as_in; as_eq; 1])
 

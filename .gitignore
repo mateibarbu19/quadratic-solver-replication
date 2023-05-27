@@ -1,3 +1,4 @@
 *.pdf
 *.vs*
 *_codebraid
+*octave-workspace

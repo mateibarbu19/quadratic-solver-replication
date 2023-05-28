@@ -1,30 +1,8 @@
 function x = quadprog(x0, G, c, A_eq, b_eq, A_in, b_in)
     display("========================= START =========================\n");
-    % TODO verify all dimensions
-    % TODO choose x0 which satisfies some constraints
-    % TODO A has linieraly dependent rows
-    % TODO no constrains
     % TODO aproximate 0, aproximate 1?
+
     L = rows(G);
-
-    if (isempty(x0))
-        x0 = zeros (L, 1);
-    endif
-
-    if (isempty(A_eq) || isempty(b_eq))
-        A_eq = zeros(1, L);
-        b_eq = zeros(1);
-    endif
-
-    if (isempty(A_in) || isempty(b_in))
-        A_in = zeros(1, L);
-        b_in = zeros(1);
-    endif
-
-    if (isempty(c))
-        c = zeros(L, 1);
-    endif
-
     M = rows(A_in);
     N = rows(A_eq);
 

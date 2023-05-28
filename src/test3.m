@@ -1,21 +1,21 @@
 x0 = [];
 
 H = [
-    1
+    1;
 ];
 
 q = [
-    -7
+    -7;
 ];
 
 A = [
-    3
+    3;
 ];
 
 b = [
-    6
+    6;
 ];
 
-our = quadprog(x0, H, q, A, b, [], [])
+our = demoQP(x0, H, q, A, b, [], [])
 
 correct = qp(x0, H, q, A, b)

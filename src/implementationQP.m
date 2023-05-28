@@ -38,7 +38,7 @@ function x = quadprog(x0, G, c, A_eq, b_eq, A_in, b_in)
 
             ls_in = lambdas(1:rows(idx_in), :);
 
-            if (isempty(idx_in) || all(ls_in >= 0))
+            if (isempty(idx_in) || all(ls_in >= -1e-12))
                 return;
             else
                 [~, j] = min(ls_in);

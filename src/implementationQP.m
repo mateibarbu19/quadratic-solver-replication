@@ -1,5 +1,4 @@
-function x = quadprog(x0, G, c, A_eq, b_eq, A_in, b_in)
-    display("========================= START =========================\n");
+function x = implementationQP(x0, G, c, A_eq, b_eq, A_in, b_in)
     % TODO aproximate 0, aproximate 1?
 
     L = rows(G);

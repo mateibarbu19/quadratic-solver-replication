@@ -13,14 +13,6 @@ q = [
     -5;
 ];
 
-A_eq = [
-    1 0;
-];
-
-b_eq = [
-    1.4;
-];
-
 A_in = [
     1 -2;
     -1 -2;
@@ -37,6 +29,6 @@ b_in = [
     0;
 ];
 
-our = demoQP([], H, q, A_eq, b_eq, A_in, b_in)
+our = demoQP([], H, q, [], [], A_in, b_in)
 
-correct = qp(x0, H, q, A_eq, b_eq, [], [], b_in, A_in, [])
+correct = qp(x0, H, q, [], [], [], [], b_in, A_in, [])

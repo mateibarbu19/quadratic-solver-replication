@@ -1,6 +1,8 @@
 function result = demoQP(x0, G, c, A_eq, b_eq, A_in, b_in, varargin)
     display("========================= START =========================\n");
 
+    result = [];
+
     if !check_constraints(x0, G, c, A_eq, b_eq, A_in, b_in)
         disp('The initial qp conditions regarding matrices and vectors are not respected');
         result = [];
@@ -8,19 +10,6 @@ function result = demoQP(x0, G, c, A_eq, b_eq, A_in, b_in, varargin)
     endif
 
     L = rows(G);
-
-    if (isempty(x0))
-        A = [A_eq; A_in];
-        A = [A -A];
-        b = [b_eq; b_in];
-        z = zeros(2 * L, 1);
-
-        ctype = repmat("S", 1, rows(A_eq));
-        ctype = [ctype repmat("L", 1, rows(A_in))];
-
-        pm = glpk (z, A, b, [], [], ctype);
-        x0 = pm(1:L) - pm(L + 1:end)
-    endif
 
     if (isempty(A_eq) || isempty(b_eq))
         A_eq = zeros(1, L);
@@ -38,6 +27,23 @@ function result = demoQP(x0, G, c, A_eq, b_eq, A_in, b_in, varargin)
 
     if (nargin == 7)
         tol = 1e-12;
+    endif
+
+    if (isempty(x0))
+        A = [A_eq; A_in];
+        A = [A -A];
+        b = [b_eq; b_in];
+        z = zeros(2 * L, 1);
+
+        ctype = repmat("S", 1, rows(A_eq));
+        ctype = [ctype repmat("L", 1, rows(A_in))];
+
+        pm = glpk (z, A, b, [], [], ctype);
+        x0 = pm(1:L) - pm(L + 1:end)
+        if (isnan(x0))
+            display("Error: The given constraints could not be satisfied");
+            return
+        endif
     endif
 
     disp('The matrices and vectors respects the initial  qp conditions');

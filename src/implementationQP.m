@@ -3,10 +3,9 @@ function x = implementationQP(x0, G, c, A_eq, b_eq, A_in, b_in, tol)
     M = rows(A_eq);
     N = rows(A_in);
 
-    % TODO tolerance
     % the SUBset of the active constraints at x0
-    idx_eq = find(A_eq * x0 == b_eq);
-    idx_in = find(A_in * x0 >= b_in);
+    idx_eq = find(abs(A_eq * x0 - b_eq) <= tol);
+    idx_in = find(A_in * x0 >= b_in - tol);
     x = x0;
 
     while 1

@@ -1,4 +1,4 @@
-function result = demoQP(x0, G, c, A_eq, b_eq, A_in, b_in)
+function result = demoQP(x0, G, c, A_eq, b_eq, A_in, b_in, varargin)
     display("========================= START =========================\n");
 
     if !check_constraints(x0, G, c, A_eq, b_eq, A_in, b_in)
@@ -10,13 +10,13 @@ function result = demoQP(x0, G, c, A_eq, b_eq, A_in, b_in)
     L = rows(G);
 
     if (isempty(x0))
-        A = [A_in; A_eq];
+        A = [A_eq; A_in];
         A = [A -A];
-        b = [b_in; b_eq];
+        b = [b_eq; b_in];
         z = zeros(2 * L, 1);
 
-        ctype = repmat("L", 1, rows(A_in));
-        ctype = [ctype repmat("S", 1, rows(A_eq))];
+        ctype = repmat("S", 1, rows(A_eq));
+        ctype = [ctype repmat("L", 1, rows(A_in))];
 
         pm = glpk (z, A, b, [], [], ctype);
         x0 = pm(1:L) - pm(L + 1:end)
@@ -36,7 +36,11 @@ function result = demoQP(x0, G, c, A_eq, b_eq, A_in, b_in)
         c = zeros(L, 1);
     endif
 
+    if (nargin == 7)
+        tol = 1e-12;
+    endif
+
     disp('The matrices and vectors respects the initial  qp conditions');
-    result = implementationQP(x0, G, c, A_eq, b_eq, A_in, b_in);
+    result = implementationQP(x0, G, c, A_eq, b_eq, A_in, b_in, tol);
 
 endfunction
